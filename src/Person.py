@@ -35,5 +35,3 @@ class Person:
 
     def set_address(self, address: Address):
         self.address = address
-
-    

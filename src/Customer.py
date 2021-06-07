@@ -13,10 +13,7 @@ class Customer(Person):
     def __init__(self, id, credit_score, name, phone, email, ssn_tin, address: Address):
         self.id = id
         self.credit_score = credit_score
-        super(Customer, self).__init__(name, phone, email, ssn_tin, address)
-
-    def get_customer_id(self):
-        return self.id
+        super(Customer, self).__init__(id, name, phone, email, ssn_tin, address)
 
     def get_daily_ctr(self):
         return self.ctr

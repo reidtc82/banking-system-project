@@ -10,16 +10,16 @@ class DraftAccount(CustomerAccount):
     def __init__(
         self,
         account_number,
+        description,
         owner: Person,
         draft_income_gl: GLAccount,
         fee_amt=0.0,
         overdraft_limit=0.0,
-        balance=0.0,
     ):
         self.fee_amt = fee_amt
         self.draft_income_gl = draft_income_gl
         super().__init__(
-            account_number, owner, overdraft_limit=overdraft_limit, balance=balance
+            account_number, description, owner, overdraft_limit=overdraft_limit
         )
 
     def get_fee(self):

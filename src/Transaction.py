@@ -1,4 +1,5 @@
 from util.TranType import TranType
+from datetime import datetime
 
 
 class Transaction:
@@ -7,6 +8,7 @@ class Transaction:
         self.__tran_type = tran_type
         self.__merchant_code = merchant_code
         self.__description = description
+        self.__tran_date = datetime.now()
 
     def get_amt(self):
         return self.__tran_amt
@@ -19,3 +21,6 @@ class Transaction:
 
     def get_description(self):
         return self.__description
+
+    def get_tran_date(self):
+        return self.__tran_date

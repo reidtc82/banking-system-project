@@ -14,11 +14,11 @@ class RegDAccount(CustomerAccount):
     withdrawal_count = 0
 
     def __init__(
-        self, account_number, owner: Person, overdraft_limit, interest, balance=0.0
+        self, account_number, description, owner: Person, overdraft_limit, interest
     ):
         self.interest = interest
         super().__init__(
-            account_number, owner, overdraft_limit=overdraft_limit, balance=balance
+            account_number, description, owner, overdraft_limit=overdraft_limit
         )
 
     def get_withdrawal_count(self):

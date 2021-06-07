@@ -5,10 +5,11 @@ from util.BankExceptions import UnrecognizedTransactionType
 
 class Account:
     trans_hist = []
+    balance = 0.0
 
-    def __init__(self, account_number, balance=0.0):
-        self.balance = balance
+    def __init__(self, account_number, description):
         self.account_number = account_number
+        self.description = description
 
     def __credit(self, amt):
         self.balance += amt
@@ -24,6 +25,9 @@ class Account:
 
     def get_transaction_history(self):
         return self.trans_hist
+
+    def get_description(self):
+        return self.description
 
     def apply_transaction(self, transaction: Transaction):
         if transaction.get_type() == TranType.DEPOSIT:

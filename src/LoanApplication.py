@@ -16,7 +16,7 @@ class LoanApplication:
         ssn,
         description,
         credit_score: int,
-        app_type: AppType,
+        app_type,
         status=AppStatus.SUBMITTED,
     ):
         self.application_id = application_id
@@ -63,7 +63,7 @@ class LoanApplication:
     def approve_application(self, id, owner, interest):
         self.app_status = AppStatus.APPROVED
         self.decision_date = datetime.datetime.now()
-        return Loan(id, owner, self, self.loan_amount, interest, self.description)
+        return (id, owner, self, self.loan_amount, interest, self.description)
 
     def deny_application(self):
         self.app_status = AppStatus.DENIED

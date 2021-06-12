@@ -35,3 +35,6 @@ class Address:
 
     def get_country(self):
         return self.country
+
+    def print_mail(self):
+        print(f"{self.street}\n{self.city}, {self.state} {self.postal}")

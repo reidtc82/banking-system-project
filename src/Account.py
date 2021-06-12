@@ -11,10 +11,10 @@ class Account:
         self.account_number = account_number
         self.description = description
 
-    def __credit(self, amt):
+    def _credit(self, amt):
         self.balance += amt
 
-    def __debit(self, amt):
+    def _debit(self, amt):
         self.balance -= amt
 
     def get_account_number(self):

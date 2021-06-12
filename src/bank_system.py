@@ -3,6 +3,7 @@ from util.GLType import GLType
 from GLAccount import GLAccount
 from Customer import Customer
 
+
 class Driver:
     __prompt = f"Enter menu selection: "
     __menus = {}
@@ -112,7 +113,6 @@ class Driver:
             self.menu_handler("GL Menu")
         else:
             menu = ["List All", "Get Balance", "List Transactions", "Return"]
-            
 
             gl_nums = {}
             for gl in self.gl_list:
@@ -120,31 +120,37 @@ class Driver:
 
             selection = None
             while selection != 3:
-                print('\n')
+                print("\n")
                 for i, v in enumerate(menu):
                     print(f"{i} {v}")
 
                 selection = int(input("Enter selection... "))
                 if selection == 0:
-                    print('\n')
+                    print("\n")
                     for i, v in enumerate(self.gl_list):
                         print(f"{v.get_account_number()} {v.get_description()}")
                 elif selection == 1:
                     gl_sel = input(f"Input GL Account number... ")
                     print(gl_nums.keys())
                     if gl_sel not in gl_nums.keys():
-                        print(f'That GL does not exist...')
+                        print(f"That GL does not exist...")
                     else:
-                        print(f'\nGL {gl_sel} balance is {gl_nums[gl_sel].get_balance()}')
+                        print(
+                            f"\nGL {gl_sel} balance is {gl_nums[gl_sel].get_balance()}"
+                        )
                 elif selection == 2:
                     gl_sel = input(f"Input GL Account number... ")
                     if gl_sel not in gl_nums.keys():
                         print(f"That GL does not exist...")
                     else:
-                        print('\n')
-                        for i,v in enumerate(gl_nums[gl_sel].get_transaction_history()):
-                            print(f"{v.get_tran_date()} {v.get_tran_amt()} {v.get_description()}")
-            
+                        print("\n")
+                        for i, v in enumerate(
+                            gl_nums[gl_sel].get_transaction_history()
+                        ):
+                            print(
+                                f"{v.get_tran_date()} {v.get_tran_amt()} {v.get_description()}"
+                            )
+
             self.menu_handler("GL Menu")
 
     def create_application(self):
@@ -179,19 +185,25 @@ class Driver:
         id = input("Enter Customer ID... ")
         name = input("Enter Customer name... ")
         ssn_tin = input("Enter Customer SSN/TIN...")
+        phone = input("Enter phone... ")
+        email = input("Enter email... ")
+        credit_score = input("Enter credit score... ")
+
+        address = self.create_address()
+        self.people_list.append(
+            Customer(id, credit_score, name, phone, email, ssn_tin, address)
+        )
+
+        self.menu_handler("Customer Menu")
+
+    def create_address(self):
         street = input("Enter street... ")
         city = input("Enter city... ")
         state = input("ENter state... ")
         postal = input("Enter postal... ")
         country = input("Enter country... ")
-        phone = input("Enter phone... ")
-        email = input("Enter email... ")
-        credit_score = input("Enter credit score... ")
 
-        address = Address(street, city, state, postal, country)
-        self.people_list.append(Customer(id, credit_score, name, phone, email, ssn_tin, address))
-
-        self.menu_handler("Customer Menu")
+        return Address(street, city, state, postal, country)
 
     def manage_customer(self):
         print(f"\nManaging a customer")
@@ -199,11 +211,18 @@ class Driver:
             print(f"No Customers exist. PLease create a Customer...")
             self.menu_handler("Customer Menu")
         else:
-            menu = ["List all Customers", "List Accounts", "List Loans", "List Applications", "Update Address", "Return"]
+            menu = [
+                "List all Customers",
+                "List Accounts",
+                "List Loans",
+                "List Applications",
+                "Update Address",
+                "Return",
+            ]
 
             selection = None
             while selection != 5:
-                print('\n')
+                print("\n")
                 for i, v in enumerate(menu):
                     print(f"{i} {v}")
 
@@ -214,7 +233,7 @@ class Driver:
                 selection = int(input("Enter selection... "))
 
                 if selection == 0:
-                    print('\n')
+                    print("\n")
                     for i, v in enumerate(self.people_list):
                         print(f"{v.get_id()} {v.get_name()}")
                 elif selection == 1:
@@ -222,17 +241,38 @@ class Driver:
                     if selection not in cust_ids.keys():
                         print("That customer does not exist... ")
                     else:
-                        print('\n')
-                        for i,v in enumerate(cust_ids[selection].get_accounts()):
+                        print("\n")
+                        for i, v in enumerate(cust_ids[selection].get_accounts()):
                             print(v.get_account_number())
-                elif selection == 2:
-                    pass
-                elif selection == 3:
-                    pass
-                elif selection != 4:
-                    pass
-
-
+                elif selection == 2:  # loans
+                    selection = input("Enter customer id... ")
+                    if selection not in cust_ids.keys():
+                        print("That customer does not exist... ")
+                    else:
+                        print("\n")
+                        for i, v in enumerate(cust_ids[selection].get_loans()):
+                            print(v.get_id())
+                elif selection == 3:  # applicaitons
+                    selection = input("Enter customer id... ")
+                    if selection not in cust_ids.keys():
+                        print("That customer does not exist... ")
+                    else:
+                        print("\n")
+                        for i, v in enumerate(cust_ids[selection].get_applications()):
+                            print(v.get_application_id())
+                elif selection == 4:  # update address
+                    selection = input("Enter customer id... ")
+                    if selection not in cust_ids.keys():
+                        print("That customer does not exist... ")
+                    else:
+                        print("\n")
+                        print(
+                            f"Old address:\n{cust_ids[selection].get_address().print_mail()}"
+                        )
+                        cust_ids[selection].set_address(self.create_address())
+                        print(
+                            f"New address:\n{cust_ids[selection].get_address().print_mail()}"
+                        )
 
             self.menu_handler("Customer Menu")
 

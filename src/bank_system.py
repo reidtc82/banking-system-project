@@ -2,19 +2,29 @@ from Address import Address
 from util.GLType import GLType
 from GLAccount import GLAccount
 from Customer import Customer
+import pickle
 
 
 class Driver:
     __prompt = f"Enter menu selection: "
     __menus = {}
 
-    account_list = []
-    people_list = []
-    loan_list = []
-    applications_list = []
-    gl_list = []
+    fake_db = {
+        "account_list": [],
+        "people_list": [],
+        "loan_list": [],
+        "applications_list": [],
+        "gl_list": [],
+    }
 
     def __init__(self):
+        if (not self.fake_db[key] for key in self.fake_db.keys()):
+            try:
+                self.load_db()
+                print(f"fakedatabase opened")
+            except:
+                self.write_db()
+                print(f"fakedatabase created")
 
         self.__menus = {
             "Main Menu": {
@@ -102,20 +112,22 @@ class Driver:
             print(f"{i} {v}")
         gl_type = types[int(input(f"Select GL Account Type... "))]
 
-        self.gl_list.append(GLAccount(ac_num, gl_type, desc))
+        self.fake_db["gl_list"].append(GLAccount(ac_num, gl_type, desc))
+
+        self.write_db()
 
         self.menu_handler("GL Menu")
 
     def manage_gl(self):
         print(f"\nManaging a GL")
-        if not self.gl_list:
+        if not self.fake_db["gl_list"]:
             print(f"No GLs exist. Please create a GL...")
             self.menu_handler("GL Menu")
         else:
             menu = ["List All", "Get Balance", "List Transactions", "Return"]
 
             gl_nums = {}
-            for gl in self.gl_list:
+            for gl in self.fake_db["gl_list"]:
                 gl_nums[gl.get_account_number()] = gl
 
             selection = None
@@ -127,7 +139,7 @@ class Driver:
                 selection = int(input("Enter selection... "))
                 if selection == 0:
                     print("\n")
-                    for i, v in enumerate(self.gl_list):
+                    for i, v in enumerate(self.fake_db["gl_list"]):
                         print(f"{v.get_account_number()} {v.get_description()}")
                 elif selection == 1:
                     gl_sel = input(f"Input GL Account number... ")
@@ -194,6 +206,8 @@ class Driver:
             Customer(id, credit_score, name, phone, email, ssn_tin, address)
         )
 
+        self.write_db()
+
         self.menu_handler("Customer Menu")
 
     def create_address(self):
@@ -227,14 +241,14 @@ class Driver:
                     print(f"{i} {v}")
 
                 cust_ids = {}
-                for cust in self.people_list:
+                for cust in self.fake_db["people_list"]:
                     cust_ids[cust.get_id()] = cust
 
                 selection = int(input("Enter selection... "))
 
                 if selection == 0:
                     print("\n")
-                    for i, v in enumerate(self.people_list):
+                    for i, v in enumerate(self.fake_db["people_list"]):
                         print(f"{v.get_id()} {v.get_name()}")
                 elif selection == 1:
                     selection = input("Enter customer id... ")
@@ -273,11 +287,19 @@ class Driver:
                         print(
                             f"New address:\n{cust_ids[selection].get_address().print_mail()}"
                         )
-
+            self.write_db()
             self.menu_handler("Customer Menu")
 
     def end_program(self):
         quit()
+
+    def load_db(self):
+        with open("fake_db.pickle", "rb") as f:
+            self.fake_db = pickle.load(f)
+
+    def write_db(self):
+        with open("fake_db.pickle", "wb") as f:
+            pickle.dump(self.fake_db, f)
 
 
 if __name__ == "__main__":

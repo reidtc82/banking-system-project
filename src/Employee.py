@@ -8,7 +8,7 @@ class Employee(Customer):
 
     def __init__(
         self,
-        employee_id,
+        id,
         role,
         department,
         salary,
@@ -23,7 +23,7 @@ class Employee(Customer):
         dep_limit=50000.00,
         vault_limit=50000.00,
     ):
-        self.employee_id = employee_id
+        self.id = id
         self.role = role
         self.department = department
         self.vault_access = v_access
@@ -32,11 +32,8 @@ class Employee(Customer):
         self.vault_limit = vault_limit
         self.salary = salary
         super(Employee, self).__init__(
-            employee_id, credit_score, name, phone, email, ssn_tin, address
+            id, credit_score, name, phone, email, ssn_tin, address
         )
-
-    def get_employee_id(self):
-        return self.employee_id
 
     def get_role(self):
         return self.role

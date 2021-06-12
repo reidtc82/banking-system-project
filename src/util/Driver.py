@@ -20,7 +20,7 @@ class Driver:
     }
 
     def __init__(self):
-        self.fh = File_handler("fake_db.pickle")
+        self.fh = File_handler("fake_db.pickle", self.fake_db)
 
         self.__menus = {
             "Main Menu": {
@@ -85,27 +85,41 @@ class Driver:
             print(f"No Customers exist. Please create a customer before an Account...")
             self.menu_handler("Customer Menu")
         elif not self.fake_db["gl_list"]:
-            print(f'No GL accounts exist. Please create a GL account first...')
+            print(f"No GL accounts exist. Please create a GL account first...")
             self.menu_handler("GL Menu")
         else:
-            print(f'1 Checking')
-            print(f'2 Savings')
-            ac_type = input(f'Enter account type... ')
-            account_number = input(f'Enter new account number... ')
-            description = input(f'Enter description... ')
-            owner = input(f'Enter owner\'s customer ID... ')
-            draft_income_gl = input(f'Enter fee GL number... ')
-            overdraft_limit= input(f'Enter overdraft limit... ')
+            print(f"1 Checking")
+            print(f"2 Savings")
+            ac_type = input(f"Enter account type... ")
+            account_number = input(f"Enter new account number... ")
+            description = input(f"Enter description... ")
+            owner = input(f"Enter owner's customer ID... ")
+            draft_income_gl = input(f"Enter fee GL number... ")
+            overdraft_limit = input(f"Enter overdraft limit... ")
             if ac_type == 1:
-                fee_amt = input(f'Enter fee amount... ')
-                self.fake_db["account_list"].append(DraftAccount(account_number, description, owner, draft_income_gl, fee_amt, overdraft_limit))
+                fee_amt = input(f"Enter fee amount... ")
+                self.fake_db["account_list"].append(
+                    DraftAccount(
+                        account_number,
+                        description,
+                        owner,
+                        draft_income_gl,
+                        fee_amt,
+                        overdraft_limit,
+                    )
+                )
+                self.fh.write_db()
             elif ac_type == 2:
-                interest = input(f'Enter interest rate... ')
-                self.fake_db["account_list"].append(RegDAccount(account_number, description, owner, overdraft_limit, interest))
+                interest = input(f"Enter interest rate... ")
+                self.fake_db["account_list"].append(
+                    RegDAccount(
+                        account_number, description, owner, overdraft_limit, interest
+                    )
+                )
+                self.fh.write_db()
             else:
-                print(f'That is not a valid account type...')
+                print(f"That is not a valid account type...")
                 self.menu_handler("Account Menu")
-
 
     def manage_account(self):
         print(f"\nManaging an Account")
@@ -154,7 +168,6 @@ class Driver:
 
             self.menu_handler("Account Menu")
 
-
     def create_gl(self):
         print(f"\nGL Creation")
 
@@ -176,7 +189,6 @@ class Driver:
         self.fh.write_db()
 
         self.menu_handler("GL Menu")
-
 
     def manage_gl(self):
         print(f"\nManaging a GL")
@@ -225,7 +237,6 @@ class Driver:
 
             self.menu_handler("GL Menu")
 
-
     def create_application(self):
         print(f"\nApplication Creation")
         if not self.fake_db["people_list"]:
@@ -237,7 +248,6 @@ class Driver:
         else:
             pass
 
-
     def work_application(self):
         print(f"\nWorking an Application")
         if not self.fake_db["applications_list"]:
@@ -246,7 +256,6 @@ class Driver:
         else:
             pass
 
-
     def work_loan(self):
         print(f"\nWorking a loan")
         if not self.fake_db["loan_list"]:
@@ -254,7 +263,6 @@ class Driver:
             self.menu_handler("Loan Menu")
         else:
             pass
-
 
     def create_customer(self):
         print(f"\nCustomer Creation")
@@ -274,7 +282,6 @@ class Driver:
 
         self.menu_handler("Customer Menu")
 
-
     def create_address(self):
         street = input("Enter street... ")
         city = input("Enter city... ")
@@ -283,7 +290,6 @@ class Driver:
         country = input("Enter country... ")
 
         return Address(street, city, state, postal, country)
-
 
     def manage_customer(self):
         print(f"\nManaging a customer")
@@ -361,22 +367,23 @@ class Driver:
 
 
 class File_handler:
-    fake_db = None
-    def __init__(self, file) -> None:
+    db_struct = None
+
+    def __init__(self, file, db_struct) -> None:
         self.file_name = file
-        if (not self.fake_db[key] for key in self.fake_db.keys()):
+        self.db_struct = db_struct
+        if (not self.db_struct[key] for key in self.db_struct.keys()):
             try:
-                self.load_db()    
-                print(f'fakedatabase opened')
+                self.load_db()
+                print(f"fakedatabase opened")
             except:
                 self.write_db()
-                print(f'fakedatabase created')
+                print(f"fakedatabase created")
 
     def load_db(self):
         with open(self.file_name, "rb") as f:
-            self.fake_db = pickle.load(f)
-
+            self.db_struct = pickle.load(f)
 
     def write_db(self):
         with open(self.file_name, "wb") as f:
-            pickle.dump(self.fake_db, f)    
+            pickle.dump(self.db_struct, f)

@@ -291,7 +291,7 @@ class Driver:
                 owner = self.fake_db["people_list"][input(f"Enter owner id... ")]
                 interest = input(f"Input interest rate... ")
                 self.fake_db["loan_list"].append(
-                    Loan(self.fake_db["application_list"][app_id].approve_application(
+                    Loan(*self.fake_db["application_list"][app_id].approve_application(
                         self, app_id, owner, interest
                     ))
                 )

@@ -1,12 +1,12 @@
 from Address import Address
 from DraftAccount import DraftAccount
-from LoanApplication import LoanApplication
+import LoanApplication
 from RegDAccount import RegDAccount
-from AppStatus import AppStatus
-from GLType import GLType
+from util.AppStatus import AppStatus
+from util.GLType import GLType
 from GLAccount import GLAccount
 from Customer import Customer
-from Loan import Loan
+import Loan
 import pickle
 
 
@@ -129,6 +129,7 @@ class Driver:
             else:
                 print(f"That is not a valid account type...")
                 self.menu_handler("Account Menu")
+        self.menu_handler("Account Menu")
 
     def manage_account(self):
         print(f"\nManaging an Account")
@@ -271,11 +272,12 @@ class Driver:
                     ssn,
                     description,
                     credit_score,
-                    app_type, 
-                    status
+                    app_type,
+                    status,
                 )
             )
             self.write_db()
+        self.menu_handler("Loan Menu")
 
     def work_application(self):
         print(f"\nWorking an Application")
@@ -291,9 +293,11 @@ class Driver:
                 owner = self.fake_db["people_list"][input(f"Enter owner id... ")]
                 interest = input(f"Input interest rate... ")
                 self.fake_db["loan_list"].append(
-                    Loan(*self.fake_db["application_list"][app_id].approve_application(
-                        self, app_id, owner, interest
-                    ))
+                    Loan(
+                        *self.fake_db["application_list"][app_id].approve_application(
+                            self, app_id, owner, interest
+                        )
+                    )
                 )
                 self.write_db()
             elif decision == 2:
@@ -301,6 +305,7 @@ class Driver:
                 self.write_db()
             else:
                 self.menu_handler("Loan Menu")
+        self.menu_handler("Loan Menu")
 
     def work_loan(self):
         print(f"\nWorking a loan")
@@ -308,7 +313,19 @@ class Driver:
             print(f"No Loans exist. Please book a Loan from an Application...")
             self.menu_handler("Loan Menu")
         else:
-            pass
+            sel_ln = self.fake_db["loan_list"][int(input(f"Enter loan ID... "))]
+            selection = int(
+                input(f"1 Make payment\n2 Check balance\nEnter selection... ")
+            )
+            if selection == 1:
+                sel_ln.apply_payment(float(input(f"Enter payment amount... ")))
+                self.write_db()
+            elif selection == 2:
+                print(f"Loan {sel_ln.get_id()} balance is {sel_ln.get_balance()}")
+            else:
+                self.menu_handler("Loan Menu")
+
+        self.menu_handler("Loan Menu")
 
     def create_customer(self):
         print(f"\nCustomer Creation")

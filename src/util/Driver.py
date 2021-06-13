@@ -1,12 +1,12 @@
 from Address import Address
 from DraftAccount import DraftAccount
-import LoanApplication
+from LoanApplication import LoanApplication
 from RegDAccount import RegDAccount
 from util.AppStatus import AppStatus
 from util.GLType import GLType
 from GLAccount import GLAccount
 from Customer import Customer
-import Loan
+from Loan import Loan
 import pickle
 
 

@@ -1,5 +1,5 @@
 from Person import Person
-from LoanApplication import LoanApplication
+import LoanApplication
 
 
 class Loan:

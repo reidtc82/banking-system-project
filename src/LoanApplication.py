@@ -1,6 +1,6 @@
 from util.AppStatus import AppStatus
 from util.AppType import AppType
-from Loan import Loan
+import Loan
 import datetime
 
 
@@ -15,7 +15,7 @@ class LoanApplication:
         last_name,
         ssn,
         description,
-        credit_score: int,
+        credit_score,
         app_type,
         status=AppStatus.SUBMITTED,
     ):

@@ -3,6 +3,8 @@ from datetime import datetime
 
 
 class Transaction:
+    """A basic transaction"""
+
     def __init__(self, tran_amt, tran_type: TranType, merchant_code, description):
         self.__tran_amt = tran_amt
         self.__tran_type = tran_type

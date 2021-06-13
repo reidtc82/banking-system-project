@@ -7,6 +7,12 @@ from GLAccount import GLAccount
 
 
 class DraftAccount(CustomerAccount):
+    """Inherits from CustomerAccount
+
+    Args:
+        CustomerAccount (Account): PArent of this class.
+    """
+
     def __init__(
         self,
         account_number,
@@ -29,6 +35,16 @@ class DraftAccount(CustomerAccount):
         self.fee_amt = new_fee
 
     def apply_transaction(self, transaction: Transaction):
+        """Overrides super. In draft accounts there is additional behavior to check balance
+           and apply overdraft in the case of insufficient funds (NSF).
+
+        Args:
+            transaction (Transaction): The transaction to be applied.
+
+        Raises:
+            OverdraftLimitExceeded: Raised when OD limit is exceeded by the transaction.
+            UnrecognizedTransactionType: Same behavior as super.
+        """
         if transaction.get_type() == TranType.DEPOSIT:
             self.balance += transaction.get_amt()
             self.trans_hist.append(transaction)
@@ -52,6 +68,11 @@ class DraftAccount(CustomerAccount):
             raise UnrecognizedTransactionType
 
     def apply_fee(self, receiving_gl: GLAccount):
+        """Allows the application of a fee.
+
+        Args:
+            receiving_gl (GLAccount): The GL account to recieve the fee proceeds.
+        """
         self.apply_transaction(
             Transaction(self.fee_amt, TranType.FEE, 0, f"Fee charge")
         )

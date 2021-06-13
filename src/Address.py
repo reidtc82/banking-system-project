@@ -1,4 +1,6 @@
 class Address:
+    """Basic address class. Simply holds address data and has public accessors."""
+
     def __init__(self, street, city, state, postal, country):
         self.street = street
         self.city = city
@@ -37,4 +39,5 @@ class Address:
         return self.country
 
     def print_mail(self):
+        """Simple public function to return a mail formated address string."""
         print(f"{self.street}\n{self.city}, {self.state} {self.postal}")

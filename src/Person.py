@@ -2,6 +2,8 @@ import Address
 
 
 class Person:
+    """A generic person"""
+
     def __init__(self, id, name, phone, email, ssn_tin, address: Address):
         self.id = id
         self.name = name

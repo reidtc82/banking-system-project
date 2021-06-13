@@ -5,6 +5,8 @@ import datetime
 
 
 class LoanApplication:
+    """Loans start with applications."""
+
     loan_amount = 0.0
     decision_date = None
 
@@ -57,14 +59,26 @@ class LoanApplication:
         self.app_type = app_type
 
     def cancel_application(self):
+        """To cancel the application."""
         self.app_status = AppStatus.CANCELLED
         self.decision_date = datetime.datetime.now()
 
     def approve_application(self, id, owner, interest):
+        """To approve the application.
+
+        Args:
+            id (string): The new loan ID.
+            owner (Person): The owner of the loan to be made.
+            interest (float): The interest determined by the employee.
+
+        Returns:
+            Tuple: Tuple of attributes to pass to the loan being made.
+        """
         self.app_status = AppStatus.APPROVED
         self.decision_date = datetime.datetime.now()
         return (id, owner, self, self.loan_amount, interest, self.description)
 
     def deny_application(self):
+        """Deny the application and set the date when this occurred."""
         self.app_status = AppStatus.DENIED
         self.decision_date = datetime.datetime.now()

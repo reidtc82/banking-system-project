@@ -5,6 +5,12 @@ from Address import Address
 
 
 class Mortgage(SecuredLoan):
+    """A secured loan type. This is secured by real estate property.
+
+    Args:
+        SecuredLoan (Loan): The parent class.
+    """
+
     def __init__(
         self,
         loan_id,

@@ -3,6 +3,13 @@ from Person import Person
 
 
 class CustomerAccount(Account):
+    """CustomerAccount is the child of Account.
+
+    Args:
+        Account (Object): Parent class
+
+    """
+
     overdraft_amount = 0.0
 
     def __init__(

@@ -3,6 +3,13 @@ import Address
 
 
 class Customer(Person):
+    """Customer class inheriting form the pPerson class.
+
+    Args:
+        Person (Object): Parent class of Customer.
+
+    """
+
     ofac_clear = False
     ofac_date = None
     applications = []
@@ -37,6 +44,12 @@ class Customer(Person):
         return self.accounts
 
     def apply_ctr(self, cash_tran_amt):
+        """In US banking a CTR is a Cash Transaction Record.
+           Certain deposit and widthdrawal amounts are tracked in aggregate daily.
+
+        Args:
+            cash_tran_amt (float): This is the deposit or withdrawal absolute value.
+        """
         self.ctr += cash_tran_amt
 
     def reset_ctr(self):

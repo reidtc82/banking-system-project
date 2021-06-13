@@ -264,8 +264,7 @@ class Driver:
             credit_score = int(input(f"Enter credit score... "))
             app_type = input(f"Application type... ")
             status = AppStatus.SUBMITTED
-            self.fake_db["application_list"].append(
-                LoanApplication(
+            temp_app = LoanApplication(
                     application_id,
                     first_name,
                     last_name,
@@ -275,6 +274,8 @@ class Driver:
                     app_type,
                     status,
                 )
+            self.fake_db["application_list"].append(
+                temp_app
             )
             self.write_db()
         self.menu_handler("Loan Menu")
@@ -292,12 +293,13 @@ class Driver:
             if decision == 1:
                 owner = self.fake_db["people_list"][input(f"Enter owner id... ")]
                 interest = input(f"Input interest rate... ")
-                self.fake_db["loan_list"].append(
-                    Loan(
+                temp_ln = Loan(
                         *self.fake_db["application_list"][app_id].approve_application(
                             self, app_id, owner, interest
                         )
                     )
+                self.fake_db["loan_list"].append(
+                    temp_ln
                 )
                 self.write_db()
             elif decision == 2:

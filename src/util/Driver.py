@@ -99,7 +99,7 @@ class Driver:
         else:
             print(f"1 Checking")
             print(f"2 Savings")
-            ac_type = input(f"Enter account type... ")
+            ac_type = int(input(f"Enter account type... "))
             account_number = input(f"Enter new account number... ")
             description = input(f"Enter description... ")
             owner = input(f"Enter owner's customer ID... ")
@@ -107,24 +107,22 @@ class Driver:
             overdraft_limit = input(f"Enter overdraft limit... ")
             if ac_type == 1:
                 fee_amt = input(f"Enter fee amount... ")
-                self.fake_db["account_list"].append(
-                    DraftAccount(
-                        account_number,
-                        description,
-                        owner,
-                        draft_income_gl,
-                        fee_amt,
-                        overdraft_limit,
-                    )
+                temp_ac = DraftAccount(
+                    account_number,
+                    description,
+                    owner,
+                    draft_income_gl,
+                    fee_amt,
+                    overdraft_limit,
                 )
+                self.fake_db["account_list"].append(temp_ac)
                 self.write_db()
             elif ac_type == 2:
                 interest = input(f"Enter interest rate... ")
-                self.fake_db["account_list"].append(
-                    RegDAccount(
-                        account_number, description, owner, overdraft_limit, interest
-                    )
+                temp_ac = RegDAccount(
+                    account_number, description, owner, overdraft_limit, interest
                 )
+                self.fake_db["account_list"].append(temp_ac)
                 self.write_db()
             else:
                 print(f"That is not a valid account type...")
@@ -265,18 +263,16 @@ class Driver:
             app_type = input(f"Application type... ")
             status = AppStatus.SUBMITTED
             temp_app = LoanApplication(
-                    application_id,
-                    first_name,
-                    last_name,
-                    ssn,
-                    description,
-                    credit_score,
-                    app_type,
-                    status,
-                )
-            self.fake_db["application_list"].append(
-                temp_app
+                application_id,
+                first_name,
+                last_name,
+                ssn,
+                description,
+                credit_score,
+                app_type,
+                status,
             )
+            self.fake_db["application_list"].append(temp_app)
             self.write_db()
         self.menu_handler("Loan Menu")
 
@@ -294,13 +290,11 @@ class Driver:
                 owner = self.fake_db["people_list"][input(f"Enter owner id... ")]
                 interest = input(f"Input interest rate... ")
                 temp_ln = Loan(
-                        *self.fake_db["application_list"][app_id].approve_application(
-                            self, app_id, owner, interest
-                        )
+                    *self.fake_db["application_list"][app_id].approve_application(
+                        self, app_id, owner, interest
                     )
-                self.fake_db["loan_list"].append(
-                    temp_ln
                 )
+                self.fake_db["loan_list"].append(temp_ln)
                 self.write_db()
             elif decision == 2:
                 self.fake_db["application_list"].deny_application()
@@ -350,7 +344,7 @@ class Driver:
     def create_address(self):
         street = input("Enter street... ")
         city = input("Enter city... ")
-        state = input("ENter state... ")
+        state = input("Enter state... ")
         postal = input("Enter postal... ")
         country = input("Enter country... ")
 

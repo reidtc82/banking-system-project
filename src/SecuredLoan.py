@@ -4,6 +4,12 @@ from LoanApplication import LoanApplication
 
 
 class SecuredLoan(Loan):
+    """A generic secured loan class. These are secured by collateral.
+
+    Args:
+        Loan (Object): The parent class.
+    """
+
     def __init__(
         self,
         loan_id,

@@ -3,6 +3,8 @@ import LoanApplication
 
 
 class Loan:
+    """A generic loan class"""
+
     _balance = 0.0
 
     def __init__(
@@ -29,9 +31,15 @@ class Loan:
         self.description = description
 
     def apply_interest(self):
+        """To apply interest to a loan."""
         self._balance *= 1 + self.interest
 
     def apply_payment(self, payment):
+        """To apply a payment to a loan
+
+        Args:
+            payment (float): The payment to apply.
+        """
         self._balance -= payment
 
     def get_id(self):

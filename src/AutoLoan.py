@@ -5,6 +5,14 @@ from LoanApplication import LoanApplication
 
 
 class AutoLoan(SecuredLoan):
+    """A child to SecuredLoan for specific loan types for vehicles.
+
+    Args:
+        SecuredLoan (Loan): This is a secured loan type that would have
+                            collateral. In this child AutoLoan that
+                            collateral is a vehicle.
+    """
+
     def __init__(
         self,
         loan_id,

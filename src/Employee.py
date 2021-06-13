@@ -4,6 +4,19 @@ import Address
 
 
 class Employee(Customer):
+    """An employee is also a customer.
+
+    Args:
+        Customer (Person): The parent class
+
+    Raises:
+        VaultLimitExceeded: Employees have specific vault limits based on their station and rank. Raised if exceeded.
+        InsufficientDrawerBalance: Employees have cash drawers in which there is a balance. Rasied if there is not enough.
+
+    Returns:
+        [type]: [description]
+    """
+
     drawer_balance = 0.0
 
     def __init__(
@@ -75,12 +88,36 @@ class Employee(Customer):
         self.salary = new_salary
 
     def buy_vault_cash(self, amount):
+        """Vault is purchased and sold from. It is not just a metal box with cash in it.
+
+            An employee purchases and sells cash to the vault. In this
+            way the employee is actually dealing with thier own personal money in the drawer,
+            kind of...
+
+        Args:
+            amount (float): The amount to purchase from the vault.
+
+        Raises:
+            VaultLimitExceeded: Rasied if employee's specific vault limit has been exceeded.
+        """
         if self.drawer_balance + amount < self.vault_limit:
             self.drawer_balance += amount
         else:
             raise VaultLimitExceeded
 
     def sell_vault_cash(self, amount):
+        """Vault is purchased and sold from. It is not just a metal box with cash in it.
+
+            An employee purchases and sells cash to the vault. In this
+            way the employee is actually dealing with thier own personal money in the drawer,
+            kind of...
+
+        Args:
+            amount (float): The amount to purchase from the vault.
+
+        Raises:
+            VaultLimitExceeded: Rasied if employee's specific vault limit has been exceeded.
+        """
         if self.drawer_balance - amount >= 0.0:
             self.drawer_balance -= amount
         else:
